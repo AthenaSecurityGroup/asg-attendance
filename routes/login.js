@@ -1,18 +1,23 @@
 import { Router } from 'express';
-import * as SteamLogin from '../src/login.js';
+import SteamLogin from '../src/login.js';
+import url from 'url';
+
+const RETURN_SLUG = '/login/verify';
+const REALM = process.env.HOST;
 
 const router = Router();
+const login = new SteamLogin(url.parse(REALM + RETURN_SLUG), REALM);
 
 router.get('/login', (req, res) => {
-  SteamLogin.authenticate()
-    .then((x) => res.sendStatus(200))
-    .catch((x) => res.status(500).send(x));
+  login.authenticate()
+    .then((authUrl) => res.redirect(authUrl))
+    .catch((error) => res.status(500).send(error));
 });
 
-router.all('/login/verify', (req, res) => {
-  SteamLogin.verify(req)
-    .then((x) => res.status(200).send(x))
-    .catch((x) => res.status(500).send(x));
+router.all(RETURN_SLUG, (req, res) => {
+  login.verify(req)
+    .then((result) => res.status(200).send(result))
+    .catch((error) => res.status(500).send(error));
 });
 
 export default router;
