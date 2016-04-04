@@ -1,5 +1,5 @@
 import { Router } from 'express';
-import SteamLogin from '../src/login.js';
+import SteamLogin from '../lib/login.js';
 import url from 'url';
 
 const RETURN_SLUG = '/login/verify';
