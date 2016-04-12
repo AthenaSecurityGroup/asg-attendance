@@ -19,9 +19,9 @@
   },
   "scripts": {
     "bundle:server": "webpack --config webpack.server.js",
-    "bundle:client": "webpack --config webpack.client.js && node make static",
+    "bundle:client": "webpack --config webpack.client.js",
     "bundle": "webpack",
-    "start": "node make static && webpack-dev-server --inline --hot",
+    "start": "node dist/server.js",
     "test": "mocha --compilers js:babel-register"
   },
   "dependencies": {
